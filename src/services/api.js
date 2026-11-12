@@ -1,6 +1,6 @@
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
+  import.meta.env.VITE_API_BASE_URL || "https://library-management-api-1jzm.onrender.com/api";
 
 export const apiRequest = async (endpoint, options = {}) => {
   const savedAuth = localStorage.getItem("libraryAuth");
