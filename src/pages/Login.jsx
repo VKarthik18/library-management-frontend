@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../services/api";
@@ -9,13 +10,11 @@ function Login() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
     setError("");
 
     if (!username.trim()) {
@@ -35,21 +34,13 @@ function Login() {
         `${username.trim()}:${password}`
       );
 
-      const response = await fetch(
-        "http://localhost:8080/api/members",
-        {
-          headers: {
-            Authorization: `Basic ${credentials}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Invalid username or password.");
-      }
+      await apiRequest("/members", {
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        },
+      });
 
       login(username.trim(), password);
-
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -61,7 +52,6 @@ function Login() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-900 px-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
-
         <h1 className="text-3xl font-bold text-gray-900">
           Library Management
         </h1>
@@ -70,22 +60,15 @@ function Login() {
           Admin Login
         </p>
 
-        <form
-          onSubmit={handleLogin}
-          className="mt-8 space-y-5"
-        >
-
+        <form onSubmit={handleLogin} className="mt-8 space-y-5">
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
               Username
             </label>
-
             <input
               type="text"
               value={username}
-              onChange={(event) =>
-                setUsername(event.target.value)
-              }
+              onChange={(event) => setUsername(event.target.value)}
               placeholder="Enter username"
               className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
             />
@@ -95,13 +78,10 @@ function Login() {
             <label className="mb-2 block text-sm font-medium text-gray-700">
               Password
             </label>
-
             <input
               type="password"
               value={password}
-              onChange={(event) =>
-                setPassword(event.target.value)
-              }
+              onChange={(event) => setPassword(event.target.value)}
               placeholder="Enter password"
               className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
             />
@@ -120,7 +100,6 @@ function Login() {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-
         </form>
       </div>
     </div>
